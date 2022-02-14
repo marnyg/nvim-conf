@@ -1,7 +1,22 @@
 local api = vim.api
-local map = api.nvim_set_keymap
+--local map = api.nvim_set_keymap
+local map = vim.keymap.set
 
-vim.g.mapleader = ','
+--vim.keymap.set('n', 'asdf', function() print("real lua function") end)
+--vim.keymap.set({'n', 'v'}, '<leader>lr', vim.lsp.buf.references, {buffer=true})
+--vim.keymap.set('n', '<leader>w', "<cmd>w<cr>", {silent = true, buffer = 5 })
+--vim.keymap.set('i', '<Tab>', function()
+--  return vim.fn.pumvisible() == 1 and "<C-n>" or "<Tab>"
+--end, {expr = true})
+--vim.keymap.set('n', '[%', '<Plug>(MatchitNormalMultiBackward)')
+--
+--vim.keymap.del('n', 'asdf')
+--vim.keymap.del({'n', 'i', 'v'}, '<leader>w', {buffer = 5 })
+
+
+vim.g.mapleader = ' '
+--vim.keymap.set('n', 'asdf', function() print("real lua function") end)
+
 map('', 'Q', '', {}) -- Begone, foul beast. I can invoke your wrath with gQ anyway.
 
 map('n','<F1>',':e $MYVIMRC<CR>',{})
@@ -10,8 +25,6 @@ map('n','<leader><F1>',' :source $MYVIMRC<CR>',{})
 
 map('n','<C-n>',' :NvimTreeToggle<CR>',{})
 map('n','<leader>.',' :lcd %:p:h<CR>',{})
-
-
 
 -- better window movement
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', {silent = true})
@@ -41,7 +54,7 @@ map('n', '<C-Right>', ':vertical resize +2<CR>', {silent = true})
 -- better indenting
 map('v', '<', '<gv', {noremap = true, silent = true})
 map('v', '>', '>gv', {noremap = true, silent = true})
-
+--
 -- Tab switch buffer
 map('n', '<TAB>', ':bnext<CR>', {noremap = true, silent = true})
 map('n', '<S-TAB>', ':bprevious<CR>', {noremap = true, silent = true})
@@ -51,8 +64,8 @@ map('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
 map('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
 
 -- Better nav for omnicomplete
-vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
-vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
+--vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
+--vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 
 vim.cmd('vnoremap p "0p')
 vim.cmd('vnoremap P "0P')

@@ -5,8 +5,7 @@ for k, v in pairs(package.loaded) do
   end
 end
 
+
 require('my-plugins')
-require('my-nvim-tree')
-require('my-telescope')
 require('my-options')
 require('my-keybinds')

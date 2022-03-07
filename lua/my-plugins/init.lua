@@ -19,6 +19,8 @@ return require("packer").startup(function(use)
     use {"ahmedkhalf/lsp-rooter.nvim"} -- with this nvim-tree will follow you
     use {"kyazdani42/nvim-web-devicons"}
 
+    use { "folke/lua-dev.nvim" }
+
     -- LSP
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
@@ -31,7 +33,7 @@ return require("packer").startup(function(use)
     }
     -- Telescope
     use {"nvim-lua/plenary.nvim"}
-    use {"nvim-telescope/telescope.nvim", config = function() require('my-plugins.treesitter') end }
+    use {"nvim-telescope/telescope.nvim"}
     use {"nvim-telescope/telescope-fzy-native.nvim"}
     use {"nvim-telescope/telescope-project.nvim"}
 
@@ -80,7 +82,7 @@ return require("packer").startup(function(use)
     --nvim cmp
     use {
         "hrsh7th/nvim-cmp",
-        event = { "InsertEnter", "CmdlineEnter" },
+        --event = { "InsertEnter", "CmdlineEnter" },
         config = function() require('my-plugins.cmp') end,
         requires = {
             { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
@@ -91,10 +93,12 @@ return require("packer").startup(function(use)
             { "hrsh7th/cmp-cmdline", after = "nvim-cmp", }
         },
     }
+    use 'hrsh7th/cmp-nvim-lsp'
+
     use { "L3MON4D3/LuaSnip", module = "cmp", }
 
     if packer_bootstrap then
-    	require('packer').sync()
+        require('packer').sync()
     end
 
 end)

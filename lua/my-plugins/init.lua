@@ -94,6 +94,10 @@ return require("packer").startup(function(use)
         },
     }
     use 'hrsh7th/cmp-nvim-lsp'
+    use {'rcarriga/nvim-notify',
+        config = function() vim.notify = require("notify") end
+    }
+
 
     use { "L3MON4D3/LuaSnip", module = "cmp", }
 

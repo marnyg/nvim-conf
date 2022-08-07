@@ -7,6 +7,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 
+return require("packer").reset()
+return require("packer").init({
+    package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
+    compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin', 'packer_compiled.lua'),
+})
+
 vim.cmd "autocmd BufWritePost lua/my-plugins/*.lua PackerCompile" -- Auto compile when there are changes in plugins.lua
 return require("packer").startup(function(use)
     -- Packer can manage itself as an optional plugin

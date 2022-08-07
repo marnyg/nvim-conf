@@ -7,8 +7,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 
-return require("packer").reset()
-return require("packer").init({
+require("packer").reset()
+require("packer").init({
     package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
     compile_path = util.join_paths(vim.fn.stdpath('data'), 'plugin', 'packer_compiled.lua'),
 })

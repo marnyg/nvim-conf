@@ -9,6 +9,7 @@ end
 
 require("packer").reset()
 require("packer").init({
+    util = require('packer').util
     package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
     compile_path = util.join_paths(vim.fn.stdpath('data'), 'plugin', 'packer_compiled.lua'),
 })

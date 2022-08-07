@@ -1,18 +1,21 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
 end
 
 
 require("packer").reset()
-require("packer").init({
-    util = require('packer').util
+local util = require('packer.util')
+local setting =
+{
     package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
-    compile_path = util.join_paths(vim.fn.stdpath('data'), 'plugin', 'packer_compiled.lua'),
-})
+    compile_path = util.join_paths(vim.fn.stdpath('data'), 'plugin', 'packer_compiled.lua')
+}
+require("packer").init(setting)
 
 vim.cmd "autocmd BufWritePost lua/my-plugins/*.lua PackerCompile" -- Auto compile when there are changes in plugins.lua
 return require("packer").startup(function(use)
@@ -20,17 +23,32 @@ return require("packer").startup(function(use)
     use "wbthomason/packer.nvim"
 
     use { 'kyazdani42/nvim-tree.lua',
-        requires = { 'kyazdani42/nvim-web-devicons'}, -- optional, for file icon 
-        config = function() require'nvim-tree'.setup {} end
+        requires = { 'kyazdani42/nvim-web-devicons' }, -- optional, for file icon
+        config = function() require 'nvim-tree'.setup {} end
     }
-    use {"ahmedkhalf/lsp-rooter.nvim"} -- with this nvim-tree will follow you
-    use {"kyazdani42/nvim-web-devicons"}
+    use { "ahmedkhalf/lsp-rooter.nvim" } -- with this nvim-tree will follow you
+    use { "kyazdani42/nvim-web-devicons" }
 
     use { "folke/lua-dev.nvim" }
 
     -- LSP
+    --
+    use { "williamboman/mason.nvim",
+        config = function() require("mason").setup({
+                install_root_dir = require('packer.util').join_paths(vim.fn.stdpath('data'), "mason"),
+            })
+        end
+    }
+    use { "williamboman/mason-lspconfig.nvim",
+        config = function() require("mason-lspconfig").setup({
+                -- install_root_dir = require('packer.util').join_paths(vim.fn.stdpath('data'), "mason"),
+                automatic_installation = true,
+                ensure_installed= { 'sumneko_lua', 'bash-language-server', 'typescript-language-server', 'omnisharp' }
+            })
+        end
+    }
     use 'neovim/nvim-lspconfig'
-    use 'williamboman/nvim-lsp-installer'
+    -- use 'williamboman/nvim-lsp-installer'
 
 
     use {
@@ -39,20 +57,20 @@ return require("packer").startup(function(use)
         event = "ColorScheme"
     }
     -- Telescope
-    use {"nvim-lua/plenary.nvim"}
-    use {"nvim-telescope/telescope.nvim"}
-    use {"nvim-telescope/telescope-fzy-native.nvim"}
-    use {"nvim-telescope/telescope-project.nvim"}
+    use { "nvim-lua/plenary.nvim" }
+    use { "nvim-telescope/telescope.nvim" }
+    use { "nvim-telescope/telescope-fzy-native.nvim" }
+    use { "nvim-telescope/telescope-project.nvim" }
 
     -- Color
-    use {"christianchiarulli/nvcode-color-schemes.vim"}
+    use { "christianchiarulli/nvcode-color-schemes.vim" }
     use { "catppuccin/nvim", as = "catppuccin" }
 
     use "elihunter173/dirbuf.nvim"
 
-    use { 'j-hui/fidget.nvim', config = function() require"fidget".setup{} end }
+    use { 'j-hui/fidget.nvim', config = function() require "fidget".setup {} end }
     use { "nanozuki/tabby.nvim", config = function() require("tabby").setup() end, }
-    use { "folke/which-key.nvim", config = function() require("which-key").setup { } end }
+    use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
 
     -- treesitter
     use {
@@ -101,7 +119,7 @@ return require("packer").startup(function(use)
         },
     }
     use 'hrsh7th/cmp-nvim-lsp'
-    use {'rcarriga/nvim-notify',
+    use { 'rcarriga/nvim-notify',
         config = function() vim.notify = require("notify") end
     }
 

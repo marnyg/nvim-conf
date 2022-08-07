@@ -33,63 +33,63 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
---
-local lsp_installer = require "nvim-lsp-installer"
-local servers = { 'sumneko_lua', 'bashls', 'tsserver', 'omnisharp' }
---local servers = { 'bashls', 'tsserver' }
+-- --
+-- local lsp_installer = require "nvim-lsp-installer"
+-- local servers = { 'sumneko_lua', 'bashls', 'tsserver', 'omnisharp' }
+-- --local servers = { 'bashls', 'tsserver' }
 
 
--- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-print(capabilities)
-local use_lua_dev = true
+-- -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- print(capabilities)
+-- local use_lua_dev = true
 
 
-for _, lsp in pairs(servers) do
-    ---LSP INSTALL SERVER
-    local server_is_found, server = lsp_installer.get_server(lsp)
-    if server_is_found and not server:is_installed() then
-        print("Installing " .. lsp)
-        server:install()
-    end
+-- for _, lsp in pairs(servers) do
+--     ---LSP INSTALL SERVER
+--     local server_is_found, server = lsp_installer.get_server(lsp)
+--     if server_is_found and not server:is_installed() then
+--         print("Installing " .. lsp)
+--         server:install()
+--     end
 
-    ---LSP CONFIG
-    if lsp == 'sumneko_lua' and use_lua_dev then
-        --require('lspconfig')[lsp].setup { on_attach = on_attach } -- withoute lua-dev for nvim completion
-        require('lspconfig')[lsp].setup(require('lua-dev').setup {
-            library = {
-                vimruntime = true,
-                types = true,
-                plugins = false,
-            },
+--     ---LSP CONFIG
+--     if lsp == 'sumneko_lua' and use_lua_dev then
+--         --require('lspconfig')[lsp].setup { on_attach = on_attach } -- withoute lua-dev for nvim completion
+--         require('lspconfig')[lsp].setup(require('lua-dev').setup {
+--             library = {
+--                 vimruntime = true,
+--                 types = true,
+--                 plugins = false,
+--             },
 
-            lspconfig = {
-                settings = {
-                    Lua = {
-                        telemetry = {
-                            enable = false,
-                        },
-                        workspace = {
-                            preloadFileSize = 180
-                        }
-                    },
-                },
-                on_attach = on_attach,
-                capabilities = capabilities -- TODO: is this a thing?
-            }
-        })
-    elseif lsp == 'omnisharp' then
-        local pid = vim.fn.getpid()
-        require('lspconfig')[lsp].setup {
-            cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
-            on_attach = on_attach,
-            capabilities = capabilities -- TODO: is this a thing?
-        }
-    else
-        require('lspconfig')[lsp].setup {
-            on_attach = on_attach,
-            capabilities = capabilities -- TODO: is this a thing?
-        }
-    end
-end
+--             lspconfig = {
+--                 settings = {
+--                     Lua = {
+--                         telemetry = {
+--                             enable = false,
+--                         },
+--                         workspace = {
+--                             preloadFileSize = 180
+--                         }
+--                     },
+--                 },
+--                 on_attach = on_attach,
+--                 capabilities = capabilities -- TODO: is this a thing?
+--             }
+--         })
+--     elseif lsp == 'omnisharp' then
+--         local pid = vim.fn.getpid()
+--         require('lspconfig')[lsp].setup {
+--             cmd = { "OmniSharp", "--languageserver" , "--hostPID", tostring(pid) };
+--             on_attach = on_attach,
+--             capabilities = capabilities -- TODO: is this a thing?
+--         }
+--     else
+--         require('lspconfig')[lsp].setup {
+--             on_attach = on_attach,
+--             capabilities = capabilities -- TODO: is this a thing?
+--         }
+--     end
+-- end

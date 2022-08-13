@@ -2,10 +2,10 @@ local map = vim.keymap.set
 
 ------------------------------NAVIGATION/UI--------------
 -- better window movement
-map('n', '<C-h>', '<C-w>h', {silent = true})
-map('n', '<C-j>', '<C-w>j', {silent = true})
-map('n', '<C-k>', '<C-w>k', {silent = true})
-map('n', '<C-l>', '<C-w>l', {silent = true})
+map("n", "<C-h>", "<C-w>h", { silent = true })
+map("n", "<C-j>", "<C-w>j", { silent = true })
+map("n", "<C-k>", "<C-w>k", { silent = true })
+map("n", "<C-l>", "<C-w>l", { silent = true })
 
 map("n", "<leader>ta", ":$tabnew<CR>", { noremap = true })
 map("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
@@ -18,8 +18,8 @@ map("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
 map("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
 
 -- Tab switch buffer
-map('n', '<TAB>', ':bnext<CR>', {noremap = true, silent = true})
-map('n', '<S-TAB>', ':bprevious<CR>', {noremap = true, silent = true})
+map("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
+map("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, silent = true })
 
 -- TODO fix this
 -- Terminal window navigation
@@ -35,19 +35,19 @@ vim.cmd([[
   tnoremap <Esc> <C-\><C-n>
 ]])
 -- resize with arrows
-map('n', '<C-Up>', ':resize -2<CR>', {silent = true})
-map('n', '<C-Down>', ':resize +2<CR>', {silent = true})
-map('n', '<C-Left>', ':vertical resize -2<CR>', {silent = true})
-map('n', '<C-Right>', ':vertical resize +2<CR>', {silent = true})
+map("n", "<C-Up>", ":resize -2<CR>", { silent = true })
+map("n", "<C-Down>", ":resize +2<CR>", { silent = true })
+map("n", "<C-Left>", ":vertical resize -2<CR>", { silent = true })
+map("n", "<C-Right>", ":vertical resize +2<CR>", { silent = true })
 
 -- better indenting
-map('v', '>', '>gv', {noremap = true, silent = true})
-map('v', '<', '<gv', {noremap = true, silent = true})
+map("v", ">", ">gv", { noremap = true, silent = true })
+map("v", "<", "<gv", { noremap = true, silent = true })
 --
 
 -- Move selected line / block of text in visual mode
-map('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
-map('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
+map("x", "K", ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
+map("x", "J", ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
 
 -- Better nav for omnicomplete
 --vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')

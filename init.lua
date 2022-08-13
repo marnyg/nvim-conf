@@ -1,9 +1,29 @@
 for k, _ in pairs(package.loaded) do
-  if string.match(k, "^my") then
-    print(k)
-    package.loaded[k] = nil
-  end
+	if string.match(k, "^my") then
+		print(k)
+		package.loaded[k] = nil
+	end
 end
+
+
+
+function dump(o)
+    if type(o) == 'table' then
+        local s = '{ \n'
+        for k,v in pairs(o) do
+                if type(k) ~= 'number' then k = '"'..k..'"' end
+                s = s .. '['..k..'] = ' .. dump(v) .. ','
+        end
+        return s .. '} \n'
+    else
+        return tostring(o)
+    end
+end
+
+function P(o)
+   print(dump(o))
+end
+
 
 vim.g.loaded_gzip = false
 vim.g.loaded_matchit = false
@@ -14,10 +34,6 @@ vim.g.loaded_man = false
 vim.g.loaded_2html_plugin = false
 vim.g.loaded_remote_plugins = false
 
-
-require('my-plugins')
-require('my-options')
-require('my-keybinds')
-
-
-
+require("my.plugins")
+require("my.options")
+require("my.keybinds")

@@ -22,6 +22,18 @@ wrapNeovim neovim {
         # mystuff {{{1
         vimPlugins.neorg
         vimPlugins.nvim-tree-lua
+        vimPlugins.nvim-cmp
+        #vimExtraPlugins.lsp-rooter
+        vimPlugins.project-nvim
+        vimPlugins.plenary-nvim
+        vimPlugins.lua-dev-nvim
+        vimPlugins.which-key-nvim
+        vimPlugins.fidget-nvim
+        vimPlugins.luasnip
+        vimPlugins.nvim-notify
+        vimExtraPlugins.tabby-nvim
+        vimExtraPlugins.dirbuf-nvim
+
 
 
 
@@ -32,10 +44,12 @@ wrapNeovim neovim {
         vimExtraPlugins.null-ls-nvim
 
 
+
         # Syntax {{{1
         (vimPlugins.nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
         vimPlugins.nvim-treesitter-textobjects
         vimExtraPlugins.nvim-surround
+
 
 
         # Terminal integration {{{1
@@ -43,16 +57,19 @@ wrapNeovim neovim {
         #vimExtraPlugins.iron-nvim
 
         #
+
         ## Marks {{{1k
         #vimExtraPlugins.marks-nvim
 
         # Fuzzy finder {{{1k
         vimPlugins.telescope-nvim
         vimPlugins.telescope-symbols-nvim
+        vimPlugins.telescope-fzf-native-nvim
         vimExtraPlugins.telescope-heading-nvim
 
         # Colorscheme {{{1k
-        vimExtraPlugins.nvim-srcerite
+        vimPlugins.catppuccin-nvim
+        vimPlugins.nvcode-color-schemes-vim
 
         # Icon {{{1k
         vimPlugins.nvim-web-devicons

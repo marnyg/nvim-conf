@@ -1,3 +1,6 @@
+
+require('telescope').load_extension('projects')
+require('telescope').load_extension('fzf')
 require("telescope").setup({
 	defaults = {
 		-- Default configuration for telescope goes here:

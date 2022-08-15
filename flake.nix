@@ -33,6 +33,7 @@
         default = packages.my-neovim;
       };
       defaultPackage = packages.my-neovim;
+
       apps = {
         my-neovim = flake-utils.lib.mkApp {
           drv = packages.default;
@@ -40,6 +41,7 @@
         };
         default = apps.my-neovim;
       };
+      defaultApp= apps.my-neovim;
 
       devShells.default = pkgs.mkShell {
         buildInputs = [

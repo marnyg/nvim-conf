@@ -15,19 +15,21 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, neovim-nightly-overlay, vim-extra-plugins, ... }: {
-    overlays.default = import ./nix/overlay.nix;
+    # overlays.default = import ./nix/overlay.nix;
   } // (flake-utils.lib.eachDefaultSystem (system:
     let
+      my-nvim = import ./nix/overlay.nix;
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
           neovim-nightly-overlay.overlay
           vim-extra-plugins.overlays.default
-          self.overlays.default
+          my-nvim
         ];
       };
     in
     rec {
+      overlays.default = my-nvim;
       packages = {
         inherit (pkgs) my-neovim;
         default = packages.my-neovim;

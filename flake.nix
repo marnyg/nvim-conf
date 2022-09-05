@@ -18,12 +18,9 @@
     # overlays.default = import ./nix/overlay.nix;
   } // (flake-utils.lib.eachDefaultSystem (system:
     let
-      my-nvim = import ./nix/overlay.nix{
-        overlays = [
-          neovim-nightly-overlay.overlay
-          vim-extra-plugins.overlays.default
-        ];
-      };
+      my-nvim = import ./nix/overlay.nix ;
+
+
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
@@ -34,7 +31,7 @@
       };
     in
     rec {
-      overlay= my-nvim;
+      overlay = my-nvim;
       overlays.default = my-nvim;
       packages = {
         inherit (pkgs) my-neovim;
@@ -49,7 +46,7 @@
         };
         default = apps.my-neovim;
       };
-      defaultApp= apps.my-neovim;
+      defaultApp = apps.my-neovim;
 
       devShells.default = pkgs.mkShell {
         buildInputs = [

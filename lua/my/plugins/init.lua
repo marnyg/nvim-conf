@@ -1,9 +1,10 @@
 require("nvim-tree").setup({})
 require("nvim-surround").setup({})
 require("project_nvim").setup({})
-require("tabby").setup({})
+require("tabby").setup({tabline = require("tabby.presets").tab_with_top_win})
 require("which-key").setup({})
 require("fidget").setup({})
+require("lua-dev").setup({})
 vim.notify = require("notify")
 require("my.plugins.neorg")
 require("my.plugins.cmp")
@@ -16,8 +17,7 @@ require("my.plugins.telescope")
 -- 
 -- 
 -- 	-- treesitter
--- 	use({
--- 		"windwp/nvim-autopairs",
+-- 	use({ "windwp/nvim-autopairs",
 -- 		event = "ColorScheme",
 -- 		config = function()
 -- 			require("nvim-autopairs").setup({
@@ -26,7 +26,6 @@ require("my.plugins.telescope")
 -- 			})
 -- 		end,
 -- 	})
--- 
 -- 
 -- 	use({ "RRethy/nvim-treesitter-textsubjects", after = "nvim-treesitter" })
 -- 	use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
@@ -51,12 +50,4 @@ require("my.plugins.telescope")
 -- 		},
 -- 	})
 -- 	use("hrsh7th/cmp-nvim-lsp")
--- 	use({
--- 		"rcarriga/nvim-notify",
--- 		config = function()
--- 			vim.notify = require("notify")
--- 		end,
--- 	})
--- 
--- 	use({ "L3MON4D3/LuaSnip", module = "cmp" })
 -- 

@@ -29,6 +29,7 @@
       };
     in
     rec {
+      overlay= my-nvim;
       overlays.default = my-nvim;
       packages = {
         inherit (pkgs) my-neovim;

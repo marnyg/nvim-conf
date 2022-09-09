@@ -1,4 +1,4 @@
-{neovim-flake, vim-extra-plugins} :
+{ neovim-flake, vim-extra-plugins }:
 final: prev:
 
 let
@@ -14,7 +14,7 @@ in
     inherit config-nvim;
   };
 
-   vimExtraPlugins = vim-extra-plugins.packages.${prev.system};
+  vimExtraPlugins = vim-extra-plugins.packages.${prev.system};
   # vimExtraPlugins = vim-extra-plugins.overlays.default.extend (self: super: {
   #   iron-nvim = super.iron-nvim.overrideAttrs (old: {
   #     patches = (old.patches or [ ]) ++ [

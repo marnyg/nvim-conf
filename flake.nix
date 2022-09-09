@@ -16,10 +16,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: {
-  } // (flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: { } // (flake-utils.lib.eachDefaultSystem (system:
     let
-      my-nvim = import ./nix/overlay.nix {inherit neovim-flake; inherit  vim-extra-plugins;};
+      my-nvim = import ./nix/overlay.nix { inherit neovim-flake; inherit vim-extra-plugins; };
 
 
       pkgs = import nixpkgs {
@@ -51,6 +50,7 @@
 
       devShells.default = pkgs.mkShell {
         buildInputs = [
+          pkgs.nixpkgs-fmt
           pkgs.selene
           pkgs.stylua
           pkgs.pre-commit

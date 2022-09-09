@@ -117,7 +117,7 @@ wrapNeovim neovim {
         #vimExtraPlugins.telescope-bibtex-nvim
 
         ## Nix {{{2k
-#        vimPlugins.vim-nix
+        #        vimPlugins.vim-nix
 
         ### Bash {{{2k
         #vimExtraPlugins.bats-vim

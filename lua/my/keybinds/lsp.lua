@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-local lspconfig = require 'lspconfig'
+local lspconfig = require("lspconfig")
 
 local opts = { noremap = true, silent = true }
 map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
@@ -37,11 +37,11 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
-   bashls = 'bash-language-server',
-   pyright = 'pyright',
-   dockerls = 'docker-langserver',
-   sumneko_lua= 'sumneko_lua',
-   rnix= 'rnix',
+	bashls = "bash-language-server",
+	pyright = "pyright",
+	dockerls = "docker-langserver",
+	sumneko_lua = "sumneko_lua",
+	rnix = "rnix",
 }
 
 --   for type, sign in pairs(diagnostic_signs) do
@@ -55,7 +55,7 @@ local servers = {
 --      vim.lsp.with(handlers.signature_help, { border = float_border })
 
 for server, cmd in pairs(servers) do
-   lspconfig[server].setup { on_attach = on_attach }
+	lspconfig[server].setup({ on_attach = on_attach })
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and

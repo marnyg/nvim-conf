@@ -5,25 +5,24 @@ for k, _ in pairs(package.loaded) do
 	end
 end
 
-
-
 function dump(o)
-    if type(o) == 'table' then
-        local s = '{ \n'
-        for k,v in pairs(o) do
-                if type(k) ~= 'number' then k = '"'..k..'"' end
-                s = s .. '['..k..'] = ' .. dump(v) .. ','
-        end
-        return s .. '} \n'
-    else
-        return tostring(o)
-    end
+	if type(o) == "table" then
+		local s = "{ \n"
+		for k, v in pairs(o) do
+			if type(k) ~= "number" then
+				k = '"' .. k .. '"'
+			end
+			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
+		end
+		return s .. "} \n"
+	else
+		return tostring(o)
+	end
 end
 
 function P(o)
-   print(dump(o))
+	print(dump(o))
 end
-
 
 vim.g.loaded_gzip = false
 vim.g.loaded_matchit = false

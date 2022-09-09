@@ -1,7 +1,7 @@
 require("nvim-tree").setup({})
 require("nvim-surround").setup({})
 require("project_nvim").setup({})
-require("tabby").setup({tabline = require("tabby.presets").tab_with_top_win})
+require("tabby").setup({ tabline = require("tabby.presets").tab_with_top_win })
 require("which-key").setup({})
 require("fidget").setup({})
 require("lua-dev").setup({})
@@ -12,10 +12,10 @@ require("my.plugins.treesitter")
 require("my.plugins.telescope")
 
 -- 	use({ "kyazdani42/nvim-web-devicons" })
--- 
+--
 -- 	use("elihunter173/dirbuf.nvim")
--- 
--- 
+--
+--
 -- 	-- treesitter
 -- 	use({ "windwp/nvim-autopairs",
 -- 		event = "ColorScheme",
@@ -26,13 +26,13 @@ require("my.plugins.telescope")
 -- 			})
 -- 		end,
 -- 	})
--- 
+--
 -- 	use({ "RRethy/nvim-treesitter-textsubjects", after = "nvim-treesitter" })
 -- 	use({ "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" })
 -- 	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
 -- 	use({ "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" })
--- 
--- 
+--
+--
 -- 	--nvim cmp
 -- 	use({
 -- 		"hrsh7th/nvim-cmp",
@@ -50,4 +50,4 @@ require("my.plugins.telescope")
 -- 		},
 -- 	})
 -- 	use("hrsh7th/cmp-nvim-lsp")
--- 
+--

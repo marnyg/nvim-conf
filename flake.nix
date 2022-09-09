@@ -4,28 +4,29 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    neovim-flake.url = "github:neovim/neovim?dir=contrib";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+    # neovim-nightly-overlay = {
+    #   url = "github:nix-community/neovim-nightly-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     vim-extra-plugins = {
       url = "github:m15a/nixpkgs-vim-extra-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim-nightly-overlay, vim-extra-plugins, ... }: {
-    # overlays.default = import ./nix/overlay.nix;
+  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: {
   } // (flake-utils.lib.eachDefaultSystem (system:
     let
-      my-nvim = import ./nix/overlay.nix ;
+      my-nvim = import ./nix/overlay.nix {inherit neovim-flake; inherit  vim-extra-plugins;};
 
 
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
-          neovim-nightly-overlay.overlay
-          vim-extra-plugins.overlays.default
+          # neovim-nightly-overlay.overlay
+          # vim-extra-plugins.overlays.default
           my-nvim
         ];
       };

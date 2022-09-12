@@ -53,7 +53,8 @@ wo.signcolumn = "number" -- Display signs in the number column
 -- buffer-local options
 bo.expandtab = true
 
-vim.cmd("colorscheme nvcode")
+--vim.cmd("colorscheme nvcode")
+vim.cmd("colorscheme catppuccin")
 vim.cmd("set iskeyword+=-") -- treat dash separated words as a word text object"
 vim.cmd("set shortmess+=c") -- Don't pass messages to |ins-completion-menu|.
 vim.cmd("set inccommand=split") -- Make substitution work in realtime

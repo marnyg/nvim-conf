@@ -1,7 +1,7 @@
 require("nvim-tree").setup({})
 require("nvim-surround").setup({})
 require("project_nvim").setup({})
-require("tabby").setup({ tabline = require("tabby.presets").tab_with_top_win })
+require("tabby").setup({ tabline = require("tabby.presets").active_wins_at_tail })
 require("which-key").setup({})
 require("fidget").setup({})
 require("lua-dev").setup({})

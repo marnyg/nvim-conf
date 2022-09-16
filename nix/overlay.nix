@@ -11,6 +11,9 @@ in
 {
   my-neovim = final.callPackage ./pkgs/my-neovim.nix {
     neovim = neovim-flake.packages.${prev.system}.neovim;
+    #neovim = neovim-flake.packages.${prev.system}.neovim-unwraped;
+    #neovim = pkgs.legacyPackages.x86_64-linux.neovim-unwrapped;
+
     inherit config-nvim;
   };
 

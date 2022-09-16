@@ -16,10 +16,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: { } // (flake-utils.lib.eachDefaultSystem (system:
-    let
-      my-nvim = import ./nix/overlay.nix { inherit neovim-flake; inherit vim-extra-plugins; };
+  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: {
+  } // (
 
+  flake-utils.lib.eachDefaultSystem (system:
+    let
+      my-nvim = import ./nix/overlay.nix { inherit neovim-flake; inherit vim-extra-plugins;};
 
       pkgs = import nixpkgs {
         inherit system;
@@ -37,10 +39,11 @@
         inherit (pkgs) my-neovim;
         default = packages.my-neovim;
       };
-      defaultPackage = packages.my-neovim;
+      #defaultPackage = packages.my-neovim;
 
       apps = {
         my-neovim = flake-utils.lib.mkApp {
+         # program = "${packages.${system}.default}/bin/nvim";
           drv = packages.default;
           name = "nvim";
         };

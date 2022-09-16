@@ -4,9 +4,18 @@
 , config-nvim
 , vimPlugins
 , vimExtraPlugins
+, pkgs
+,...
 }:
 
-wrapNeovim neovim {
+wrapNeovim neovim
+{
+#  extraPackages = with pkgs; [
+#      hunspellDicts.en-us
+#      rnix-lsp
+#      haskell-language-server
+#      sumneko-lua-language-server
+#];
   withPython3 = false;
   withRuby = false;
 
@@ -19,6 +28,7 @@ wrapNeovim neovim {
     packages.default = {
       start = [
         config-nvim
+
         # mystuff {{{1
         vimPlugins.neorg
         vimPlugins.nvim-tree-lua
@@ -37,9 +47,15 @@ wrapNeovim neovim {
 
 
 
+
         # LSP {{{1
-        vimPlugins.nvim-lspconfig
-        vimExtraPlugins.lspactions
+        #{
+        #  plugin = vimPlugins.nvim-lspconfig;
+        #  config = builtins.readFile ./fnl/config/alpha.fnl;
+        #  #type = "fennel";
+        #}
+
+        #vimExtraPlugins.lspactions
         vimPlugins.lspkind-nvim
         vimExtraPlugins.null-ls-nvim
 
@@ -65,11 +81,12 @@ wrapNeovim neovim {
         vimPlugins.telescope-nvim
         vimPlugins.telescope-symbols-nvim
         vimPlugins.telescope-fzf-native-nvim
-        vimExtraPlugins.telescope-heading-nvim
+        #vimExtraPlugins.telescope-heading-nvim
 
         # Colorscheme {{{1k
         vimPlugins.catppuccin-nvim
         vimPlugins.nvcode-color-schemes-vim
+
 
         # Icon {{{1k
         vimPlugins.nvim-web-devicons

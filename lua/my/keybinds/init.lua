@@ -1,4 +1,3 @@
-local api = vim.api
 local map = vim.keymap.set
 
 vim.g.mapleader = " "
@@ -13,6 +12,6 @@ map("n", "<C-n>", " :NvimTreeToggle<CR>", {})
 map("n", "<leader>.", " :lcd %:p:h<CR>", {})
 map("", "<leader>w", ":w<CR>", {})
 
-require("my.keybinds.telescope")
-require("my.keybinds.lsp")
-require("my.keybinds.UI")
+--require("my.keybinds.telescope")
+--require("my.keybinds.lsp")
+--require("my.keybinds.UI")

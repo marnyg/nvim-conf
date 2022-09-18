@@ -33,6 +33,6 @@ vim.g.loaded_man = false
 vim.g.loaded_2html_plugin = false
 vim.g.loaded_remote_plugins = false
 
-require("my.options")
-require("my.plugins")
-require("my.keybinds")
+--require("my.options")
+--require("my.plugins")
+--require("my.keybinds")

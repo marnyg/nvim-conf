@@ -5,17 +5,17 @@
 , vimPlugins
 , vimExtraPlugins
 , pkgs
-,...
+, ...
 }:
 
 wrapNeovim neovim
 {
-#  extraPackages = with pkgs; [
-#      hunspellDicts.en-us
-#      rnix-lsp
-#      haskell-language-server
-#      sumneko-lua-language-server
-#];
+  #  extraPackages = with pkgs; [
+  #      hunspellDicts.en-us
+  #      rnix-lsp
+  #      haskell-language-server
+  #      sumneko-lua-language-server
+  #];
   withPython3 = false;
   withRuby = false;
 
@@ -23,29 +23,80 @@ wrapNeovim neovim
     customRC = ''
       let g:disable_paq = v:true
       luafile ${config-nvim}/init.lua
+      luafile ${../../lua/my/options/init.lua}
+      luafile ${../../lua/my/keybinds/init.lua}
+      luafile ${../../lua/my/keybinds/lsp.lua}
+      luafile ${../../lua/my/keybinds/UI.lua}
     '';
 
     packages.default = {
-      start = [
+      start = with vimPlugins; with vimExtraPlugins; [
         config-nvim
+        # Colorscheme {{{1k
+        {
+          plugin = plenary-nvim;
+        }
+        {
+          plugin = catppuccin-nvim;
+          config = "colorscheme catppuccin";
+        }
+        {
+          plugin = nvcode-color-schemes-vim;
+        }
 
         # mystuff {{{1
-        vimPlugins.neorg
-        vimPlugins.nvim-tree-lua
-        vimPlugins.nvim-cmp
+        {
+          plugin = neorg;
+          config = "source ${../../lua/my/plugins/neorg.lua}";
+        }
+        {
+          plugin = nvim-tree-lua;
+          config = "lua require('nvim-tree').setup({})";
+        }
+        {
+          plugin = nvim-cmp;
+          #config = builtins.readFile ../../lua/my/plugins/cmp.lua;
+          config = "source ${../../lua/my/plugins/cmp.lua}";
+        }
         #vimExtraPlugins.lsp-rooter
-        vimPlugins.project-nvim
-        vimPlugins.plenary-nvim
-        vimPlugins.lua-dev-nvim
-        vimPlugins.which-key-nvim
-        vimPlugins.fidget-nvim
-        vimPlugins.luasnip
-        vimPlugins.nvim-notify
-        vimExtraPlugins.tabby-nvim
-        vimExtraPlugins.dirbuf-nvim
+        {
+          plugin = project-nvim;
+          config = "lua require('project_nvim').setup({})";
+        }
+        {
+          plugin = lua-dev-nvim;
+          config = "lua require('lua-dev').setup({})";
+        }
+        {
+          plugin = which-key-nvim;
+          config = "lua require('which-key').setup({})";
+        }
+        {
+          plugin = fidget-nvim;
+          config = "lua require('fidget').setup({})";
+        }
+        {
+          plugin = luasnip;
+        }
+        {
+          plugin = nvim-notify;
+          config = "lua require('notify').setup({})";
+        }
+        {
+          plugin = tabby-nvim;
+          config = "lua require('tabby').setup({ tabline = require('tabby.presets').active_wins_at_tail })";
+        }
+        #vimExtraPlugins.dirbuf-nvim
 
 
-
+        {
+          plugin = vimPlugins.toggleterm-nvim;
+          config = "lua require('toggleterm').setup {}";
+        }
+        #{
+        #  plugin = vimPlugins.neogit;
+        #  config = "lua require('neogit').setup {}";
+        #}
 
 
         # LSP {{{1
@@ -56,15 +107,25 @@ wrapNeovim neovim
         #}
 
         #vimExtraPlugins.lspactions
-        vimPlugins.lspkind-nvim
-        vimExtraPlugins.null-ls-nvim
+        {
+          plugin = lspkind-nvim;
+        }
+        #vimExtraPlugins.null-ls-nvim
 
 
 
         # Syntax {{{1
-        (vimPlugins.nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
-        vimPlugins.nvim-treesitter-textobjects
-        vimExtraPlugins.nvim-surround
+        {
+          plugin = (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars));
+          config = "source ${../../lua/my/plugins/treesitter.lua}";
+        }
+        {
+          plugin = nvim-treesitter-textobjects;
+        }
+        {
+          plugin = nvim-surround;
+          config = "lua require('nvim-surround').setup({})";
+        }
 
 
 
@@ -78,18 +139,24 @@ wrapNeovim neovim
         #vimExtraPlugins.marks-nvim
 
         # Fuzzy finder {{{1k
-        vimPlugins.telescope-nvim
-        vimPlugins.telescope-symbols-nvim
-        vimPlugins.telescope-fzf-native-nvim
+        {
+          plugin = telescope-nvim;
+          config = "source ${../../lua/my/plugins/telescope.lua}";
+        }
+        {
+          plugin = telescope-symbols-nvim;
+        }
+        {
+          plugin = telescope-fzf-native-nvim;
+        }
         #vimExtraPlugins.telescope-heading-nvim
 
-        # Colorscheme {{{1k
-        vimPlugins.catppuccin-nvim
-        vimPlugins.nvcode-color-schemes-vim
 
 
         # Icon {{{1k
-        vimPlugins.nvim-web-devicons
+        {
+          plugin = nvim-web-devicons;
+        }
 
         ## Statusline {{{1k
         #vimExtraPlugins.feline-nvim

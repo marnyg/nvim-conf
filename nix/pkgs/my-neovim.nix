@@ -10,12 +10,6 @@
 
 wrapNeovim neovim
 {
-  #  extraPackages = with pkgs; [
-  #      hunspellDicts.en-us
-  #      rnix-lsp
-  #      haskell-language-server
-  #      sumneko-lua-language-server
-  #];
   withPython3 = false;
   withRuby = false;
 
@@ -35,6 +29,7 @@ wrapNeovim neovim
         # Colorscheme {{{1k
         {
           plugin = plenary-nvim;
+          config = "lua vim.g.mapleader = ' '"; #hack need to set leader before binding keys
         }
         {
           plugin = catppuccin-nvim;
@@ -47,7 +42,7 @@ wrapNeovim neovim
         # mystuff {{{1
         {
           plugin = neorg;
-          config = "source ${../../lua/my/plugins/neorg.lua}";
+          config = "luafile ${../../lua/my/plugins/neorg.lua}";
         }
         {
           plugin = nvim-tree-lua;
@@ -55,8 +50,7 @@ wrapNeovim neovim
         }
         {
           plugin = nvim-cmp;
-          #config = builtins.readFile ../../lua/my/plugins/cmp.lua;
-          config = "source ${../../lua/my/plugins/cmp.lua}";
+          config = "luafile ${../../lua/my/plugins/cmp.lua}";
         }
         #vimExtraPlugins.lsp-rooter
         {
@@ -91,11 +85,28 @@ wrapNeovim neovim
 
         {
           plugin = vimPlugins.toggleterm-nvim;
-          config = "lua require('toggleterm').setup {}";
+          config = ''
+            lua <<EOF
+            require('toggleterm').setup {
+              open_mapping = [[<leader>tt]],
+            }
+            local opts = {buffer = 0}
+            vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+            vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+            vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+            vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+            vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+            EOF
+            nnoremap <leader>tt <Cmd>execute v:count . "ToggleTerm"<CR>
+          '';
         }
         #{
         #  plugin = vimPlugins.neogit;
-        #  config = "lua require('neogit').setup {}";
+        ##  config = "lua require('neogit').setup {}";
+        #}
+        #{
+        #  plugin = lazygit-nvim;
+        #  #config = "require('telescope').load_extension('lazygit')";
         #}
 
 
@@ -117,7 +128,7 @@ wrapNeovim neovim
         # Syntax {{{1
         {
           plugin = (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars));
-          config = "source ${../../lua/my/plugins/treesitter.lua}";
+          config = "luafile ${../../lua/my/plugins/treesitter.lua}";
         }
         {
           plugin = nvim-treesitter-textobjects;
@@ -131,7 +142,7 @@ wrapNeovim neovim
 
         # Terminal integration {{{1
         #vimExtraPlugins.smart-term-esc-nvim
-        #vimExtraPlugins.iron-nvim
+        vimExtraPlugins.iron-nvim
 
         #
 
@@ -141,7 +152,7 @@ wrapNeovim neovim
         # Fuzzy finder {{{1k
         {
           plugin = telescope-nvim;
-          config = "source ${../../lua/my/plugins/telescope.lua}";
+          config = "luafile ${../../lua/my/plugins/telescope.lua}";
         }
         {
           plugin = telescope-symbols-nvim;

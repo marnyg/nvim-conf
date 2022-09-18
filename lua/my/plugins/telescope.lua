@@ -1,5 +1,11 @@
 local map = vim.keymap.set
 
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
+map("n", "<leader>fp", "<cmd>Telescope projects<cr>", { noremap = true, silent = true })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
+map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
+map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { noremap = true, silent = true })
+
 require("telescope").load_extension("projects")
 require("telescope").load_extension("fzf")
 require("telescope").setup({
@@ -11,7 +17,7 @@ require("telescope").setup({
 				-- map actions.which_key to <C-h> (default: <C-/>)
 				-- actions.which_key shows the mappings for your picker,
 				-- e.g. git_{create, delete, ...}_branch for the git_branches picker
-				["<C-h>"] = "which_key",
+				--["<C-h>"] = "which_key",
 			},
 		},
 	},
@@ -33,8 +39,3 @@ require("telescope").setup({
 	},
 })
 
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
-map("n", "<leader>fp", "<cmd>Telescope projects<cr>", { noremap = true, silent = true })
-map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
-map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
-map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { noremap = true, silent = true })

@@ -100,10 +100,10 @@ wrapNeovim neovim
             nnoremap <leader>tt <Cmd>execute v:count . "ToggleTerm"<CR>
           '';
         }
-        #{
-        #  plugin = vimPlugins.neogit;
-        ##  config = "lua require('neogit').setup {}";
-        #}
+        {
+          plugin = vimPlugins.neogit;
+          config = "lua require('neogit').setup {}";
+        }
         #{
         #  plugin = lazygit-nvim;
         #  #config = "require('telescope').load_extension('lazygit')";

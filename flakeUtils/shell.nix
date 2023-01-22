@@ -1,10 +1,6 @@
-{ nixpkgs, ... }:
-let
-  system = "x86_64-linux";
-  pkgs = import nixpkgs { inherit system; };
-in
+{ pkgs, ... }:
 {
-  "${system}".default = pkgs.mkShell {
+  default = pkgs.mkShell {
     buildInputs = [
       pkgs.nixpkgs-fmt
       pkgs.selene

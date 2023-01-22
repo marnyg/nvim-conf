@@ -16,49 +16,54 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }: {
-  } // (
+  outputs = { self, nixpkgs, flake-utils, neovim-flake, vim-extra-plugins, ... }:
+    {
+      devShells = import ./flakeUtils/shell.nix { inherit nixpkgs; };
+      checks = import ./flakeUtils/checks.nix { inherit nixpkgs; };
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+    } //
+    (
 
-  flake-utils.lib.eachDefaultSystem (system:
-    let
-      my-nvim = import ./nix/overlay.nix { inherit neovim-flake; inherit vim-extra-plugins;};
+      flake-utils.lib.eachDefaultSystem (system:
+        let
+          my-nvim = import ./nix/overlay.nix { inherit neovim-flake; inherit vim-extra-plugins; };
 
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          # neovim-nightly-overlay.overlay
-          # vim-extra-plugins.overlays.default
-          my-nvim
-        ];
-      };
-    in
-    rec {
-      overlay = my-nvim;
-      overlays.default = my-nvim;
-      packages = {
-        inherit (pkgs) my-neovim;
-        default = packages.my-neovim;
-      };
-      #defaultPackage = packages.my-neovim;
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              # neovim-nightly-overlay.overlay
+              # vim-extra-plugins.overlays.default
+              my-nvim
+            ];
+          };
+        in
+        rec {
+          #overlay = my-nvim;
+          #overlays.default = my-nvim;
+          packages = {
+            inherit (pkgs) my-neovim;
+            default = packages.my-neovim;
+          };
+          #defaultPackage = packages.my-neovim;
 
-      apps = {
-        my-neovim = flake-utils.lib.mkApp {
-         # program = "${packages.${system}.default}/bin/nvim";
-          drv = packages.default;
-          name = "nvim";
-        };
-        default = apps.my-neovim;
-      };
-      defaultApp = apps.my-neovim;
+          apps = {
+            my-neovim = flake-utils.lib.mkApp {
+              # program = "${packages.${system}.default}/bin/nvim";
+              drv = packages.default;
+              name = "nvim";
+            };
+            default = apps.my-neovim;
+          };
+          defaultApp = apps.my-neovim;
 
-      devShells.default = pkgs.mkShell {
-        buildInputs = [
-          pkgs.nixpkgs-fmt
-          pkgs.selene
-          pkgs.stylua
-          pkgs.pre-commit
-          #pkgs.lazygit
-        ];
-      };
-    }));
+          devShells.default = pkgs.mkShell {
+            buildInputs = [
+              pkgs.nixpkgs-fmt
+              pkgs.selene
+              pkgs.stylua
+              pkgs.pre-commit
+              #pkgs.lazygit
+            ];
+          };
+        }));
 }

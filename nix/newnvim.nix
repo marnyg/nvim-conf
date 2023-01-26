@@ -5,8 +5,18 @@ let
     src = ../.;
   };
 in
-  neovim.override {
+neovim.override {
   configure = {
+    withNodeJs = false;
+    withPython3 = false;
+    wrapperArgs = [
+      pkgs.rnix-lsp
+    ];
+    paths = [
+
+      pkgs.rnix-lsp
+      neovim
+    ];
     customRC = ''
       echo "lamamlal"
       let g:disable_paq = v:true
@@ -18,16 +28,16 @@ in
     '';
     packages.myVimPackage = with pkgs.vimPlugins; {
       # see examples below how to use custom packages
-      start = [ 
-      nvim-lspconfig
-      
+      start = [
+        nvim-lspconfig
+
         #nvim-treesitter.withAllGrammars
-      #(nvim-treesitter.withPlugins (
-      #    plugins: with plugins; [
-      #      #nix
-      #      python
-      #    ]
-      #  ))
+        #(nvim-treesitter.withPlugins (
+        #    plugins: with plugins; [
+        #      #nix
+        #      python
+        #    ]
+        #  ))
         # Colorscheme {{{1k
         {
           plugin = plenary-nvim;
@@ -131,7 +141,7 @@ in
         # Syntax {{{1
         {
           #plugin = (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars));
-        plugin = nvim-treesitter.withAllGrammars;
+          plugin = nvim-treesitter.withAllGrammars;
           config = "luafile ${config-nvim}/lua/my/plugins/treesitter.lua";
         }
         {
@@ -232,7 +242,7 @@ in
 
         # }}}1
       ];
-      opt = [ ];
+      opt = [ pkgs.rnix-lsp ];
     };
   };
 }

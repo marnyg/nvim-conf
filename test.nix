@@ -1,30 +1,30 @@
-{
-  lib,
-  makeWrapper,
-  neovim-unwrapped,
-  symlinkJoin,
-  # Lazy.nvim
-  gitMinimal,
-  # Formatters and Linters
-  alejandra,
-  statix,
-  stylua,
-  # LSP Servers
-  nil,
-  sumneko-lua-language-server,
-#  tailwind-intellisense,
-#  vscode-langservers-extracted,
+{ lib
+, makeWrapper
+, neovim-unwrapped
+, symlinkJoin
+, # Lazy.nvim
+  gitMinimal
+, # Formatters and Linters
+  alejandra
+, statix
+, stylua
+, # LSP Servers
+  nil
+, sumneko-lua-language-server
+, #  tailwind-intellisense,
+  #  vscode-langservers-extracted,
   # CLI dependencies
-  fd,
-  ripgrep,
-  # Build native extensions
-  gcc,
-  gnumake,
+  fd
+, ripgrep
+, # Build native extensions
+  gcc
+, gnumake
+,
 }:
 symlinkJoin {
   name = "nvim";
-  paths = [neovim-unwrapped];
-  buildInputs = [makeWrapper];
+  paths = [ neovim-unwrapped ];
+  buildInputs = [ makeWrapper ];
   postBuild = ''
     wrapProgram $out/bin/nvim \
       --suffix PATH ":" ${

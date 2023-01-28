@@ -8,8 +8,7 @@ with lib;
   config = mkIf config.modules.myNvim.enable {
 
     programs.neovim.enable = true;
-    #programs.neovim.package = import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim; };
-    #programs.neovim.package = import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim-unwrapped; };
+    #programs.neovim.package = (import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim; });
     environment.systemPackages = with pkgs; [
       hunspell # TODO: set up spelling in nvim
       hunspellDicts.en-us
@@ -17,7 +16,7 @@ with lib;
       haskell-language-server
       sumneko-lua-language-server
       elmPackages.elm-language-server
-(import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim; })
+      (import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim; })
     ];
   };
 }

@@ -15,6 +15,7 @@ with lib;
       rnix-lsp
       haskell-language-server
       sumneko-lua-language-server
+      rust-analyzer
       elmPackages.elm-language-server
       (import ./nix/newnvim.nix { inherit pkgs; neovim = pkgs.neovim; })
     ];

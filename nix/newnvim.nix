@@ -9,16 +9,15 @@ neovim.override {
   configure = {
     withNodeJs = false;
     withPython3 = false;
-    wrapperArgs = [
-      pkgs.rnix-lsp
-    ];
-    paths = [
+    #wrapperArgs = [
+    #  pkgs.rnix-lsp
+    #];
+    #paths = [
 
-      pkgs.rnix-lsp
-      neovim
-    ];
+      #pkgs.rnix-lsp
+      #neovim
+    #];
     customRC = ''
-      echo "lamamlal"
       let g:disable_paq = v:true
       luafile ${config-nvim}/init.lua
       luafile ${config-nvim}/lua/my/options/init.lua
@@ -242,7 +241,7 @@ neovim.override {
 
         # }}}1
       ];
-      opt = [ pkgs.rnix-lsp ];
+      #opt = [ pkgs.rnix-lsp ];
     };
   };
 }

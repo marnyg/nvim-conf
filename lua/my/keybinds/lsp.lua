@@ -39,6 +39,7 @@ end
 local servers = {
 	bashls = "bash-language-server",
 	pyright = "pyright",
+	rust_analyzer = "rust_analyzer",
 	dockerls = "docker-langserver",
 	sumneko_lua = "sumneko_lua",
 	rnix = "rnix",

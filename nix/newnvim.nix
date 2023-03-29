@@ -5,24 +5,20 @@ let
     src = ../.;
   };
 in
-neovim.override {
+pkgs.neovim.override {
+  
   configure = {
     withNodeJs = false;
     withPython3 = false;
-    #wrapperArgs = [
-    #  pkgs.rnix-lsp
-    #];
-    #paths = [
 
-      #pkgs.rnix-lsp
-      #neovim
-    #];
     customRC = ''
+      " Update the PATH to include cargo, manix, and ripgrep
+      let $PATH = $PATH . ':' . '${pkgs.lib.makeBinPath [pkgs.cargo pkgs.rustc pkgs.manix pkgs.ripgrep]}'
+
       let g:disable_paq = v:true
       luafile ${config-nvim}/init.lua
       luafile ${config-nvim}/lua/my/options/init.lua
       luafile ${config-nvim}/lua/my/keybinds/init.lua
-      luafile ${config-nvim}/lua/my/keybinds/lsp.lua
       luafile ${config-nvim}/lua/my/keybinds/UI.lua
     '';
     packages.myVimPackage = with pkgs.vimPlugins; {
@@ -122,11 +118,68 @@ neovim.override {
 
 
         # LSP {{{1
-        #{
-        #  plugin = vimPlugins.nvim-lspconfig;
-        #  config = builtins.readFile ./fnl/config/alpha.fnl;
-        #  #type = "fennel";
-        #}
+        {
+          plugin = nvim-lspconfig;
+      #    config = builtins.readFile ./fnl/config/alpha.fnl;
+          config = ''
+lua << EOF
+local map = vim.keymap.set
+local lspconfig = require("lspconfig")
+
+local opts = { noremap = true, silent = true }
+map("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+map("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+	-- Enable completion triggered by <c-x><c-o>
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+	-- Mappings.
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gk", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(
+		bufnr,
+		"n",
+		"<space>wl",
+		"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
+		opts
+	)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+end
+
+--local servers = {
+	--bashls = "bash-language-server",
+	--pyright = "pyright",
+	--dockerls = "docker-langserver",
+	--sumneko_lua = "sumneko_lua",
+--}
+
+	lspconfig["rnix"].setup({ 
+      on_attach = on_attach, 
+      cmd = { "${pkgs.rnix-lsp}/bin/rnix-lsp" },
+    })
+	lspconfig["rust_analyzer"].setup({ 
+      on_attach = on_attach, 
+      cmd = { "${pkgs.rust-analyzer}/bin/rust-analyzer" },
+    })
+EOF
+'';
+          #type = "fennel";
+        }
 
         #vimExtraPlugins.lspactions
         {

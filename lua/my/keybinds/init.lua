@@ -1,6 +1,6 @@
 local map = vim.keymap.set
 
-vim.g.mapleader = " "
+--vim.g.mapleader = " "
 
 map("", "Q", "", {}) -- Begone, foul beast. I can invoke your wrath with gQ anyway.
 map("", "<C-z>", "", {}) -- Begone, foul beast. I can invoke your wrath with gQ anyway.

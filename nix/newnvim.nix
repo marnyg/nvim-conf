@@ -1,19 +1,20 @@
-{ neovim, pkgs }:
+{ pkgs }:
 let
   config-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     name = "config-nvim";
     src = ../.;
   };
+  lsp-servers = with pkgs; [ lazygit sumneko-lua-language-server cargo rust-analyzer rnix-lsp rustc manix ripgrep ];
 in
 pkgs.neovim.override {
-  
+
   configure = {
     withNodeJs = false;
     withPython3 = false;
 
     customRC = ''
       " Update the PATH to include cargo, manix, and ripgrep
-      let $PATH = $PATH . ':' . '${pkgs.lib.makeBinPath [pkgs.sumneko-lua-language-server pkgs.cargo  pkgs.rust-analyzer pkgs.rnix-lsp pkgs.rustc pkgs.manix pkgs.ripgrep]}'
+      let $PATH = $PATH . ':' . '${pkgs.lib.makeBinPath lsp-servers }'
 
       let g:disable_paq = v:true
       luafile ${config-nvim}/init.lua
@@ -36,7 +37,7 @@ pkgs.neovim.override {
         # Colorscheme {{{1k
         {
           plugin = plenary-nvim;
-          config = "lua vim.g.mapleader = ' '"; #hack need to set leader before binding keys
+          #config = "lua vim.g.mapleader = ' '"; #hack need to set leader before binding keys
         }
         {
           plugin = catppuccin-nvim;
@@ -59,6 +60,10 @@ pkgs.neovim.override {
           plugin = nvim-cmp;
           config = "luafile ${config-nvim}/lua/my/plugins/cmp.lua";
         }
+        {
+          plugin = diffview-nvim;
+          #config = "lua require('diffview.nvim')";
+        }
         #vimExtraPlugins.lsp-rooter
         {
           plugin = project-nvim;
@@ -66,7 +71,7 @@ pkgs.neovim.override {
         }
         {
           plugin = neodev-nvim;
-          config = "lua require('lua-dev').setup({})";
+          config = "lua require('neodev').setup({})";
         }
         {
           plugin = which-key-nvim;
@@ -103,13 +108,28 @@ pkgs.neovim.override {
             vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
             vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
             vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+
+            local Terminal  = require('toggleterm.terminal').Terminal
+            local lazygit = Terminal:new({ 
+            direction = "float",
+            float_opts = {
+              border = "double",
+            },
+            cmd = "lazygit", 
+            hidden = true 
+            })
+
+            function _lazygit_toggle()
+              lazygit:toggle()
+            end
+            
+            vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
             EOF
-            nnoremap <leader>tt <Cmd>execute v:count . "ToggleTerm"<CR>
           '';
         }
         {
           plugin = neogit;
-          config = "lua require('neogit').setup {}";
+          config = "lua require('neogit').setup { integrations = { diffview = true }}";
         }
         #{
         #  plugin = lazygit-nvim;
@@ -120,7 +140,7 @@ pkgs.neovim.override {
         # LSP {{{1
         {
           plugin = nvim-lspconfig;
-      #    config = builtins.readFile ./fnl/config/alpha.fnl;
+          #    config = builtins.readFile ./fnl/config/alpha.fnl;
           config = "luafile ${config-nvim}/lua/my/keybinds/lsp.lua";
           #type = "lua";
           #type = "fennel";

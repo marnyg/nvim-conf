@@ -5,14 +5,14 @@ for k, _ in pairs(package.loaded) do
 	end
 end
 
-function dump(o)
+function Dump(o)
 	if type(o) == "table" then
 		local s = "{ \n"
 		for k, v in pairs(o) do
 			if type(k) ~= "number" then
 				k = '"' .. k .. '"'
 			end
-			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
+			s = s .. "[" .. k .. "] = " .. Dump(v) .. ","
 		end
 		return s .. "} \n"
 	else
@@ -21,7 +21,7 @@ function dump(o)
 end
 
 function P(o)
-	print(dump(o))
+	print(Dump(o))
 end
 
 vim.g.loaded_gzip = false

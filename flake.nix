@@ -2,13 +2,18 @@
   description = "An example of neovim configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+    vim-extra-plugins.url = "github:dearrrfish/nixpkgs-vim-extra-plugins";
+    #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }@inputs:
+  outputs = { self, nixpkgs, vim-extra-plugins, flake-utils, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; }; in
+      let pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ vim-extra-plugins.overlays.default ];
+      };
+      in
       {
         devShells = import ./flakeUtils/shell.nix { inherit pkgs; };
         checks = import ./flakeUtils/checks.nix { inherit pkgs; };
